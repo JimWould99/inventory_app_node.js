@@ -11,3 +11,11 @@ exports.index = asyncHandler(async (req, res, next) => {
 exports.index = asyncHandler(async (req, res, next) => {
   res.send("Not yet implemented");
 });
+
+exports.category = asyncHandler(async (req, res, next) => {
+  res.send("Not yet implemented");
+});
+
+exports.item = asyncHandler(async (req, res, next) => {
+  res.send("Not yet implemented");
+});
