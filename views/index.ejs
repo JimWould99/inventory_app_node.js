@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1>Explore over <%=numGenres%> categories</h1>
+    <ul>
+      <% genres.forEach(element => { %>
+
+      <li>
+        <a href="<%=element.url%>"><h1><%= element.name %></h1></a>
+      </li>
+      <h3><%= element.description %></h3>
+      <% }); %>
+    </ul>
   </body>
 </html>

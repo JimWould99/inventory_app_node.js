@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1><%=cat.name %></h1>
+    <h3>Description: <%=cat.description%></h3>
+    <br />
+    <ul>
+      <%if (items.length > 1){ %>
+      <h3>Items in <%=cat.name%> inventory</h3>
+      <br />
+      <% items.forEach(item => { %>
+      <li>
+        <a href="<%=item.url%>"> <h3><%=item.name%></h3> </a>
+      </li>
+      <h3>Price: $<%=item.price%></h3>
+      <% }) %> <% } else {%>
+      <h3>No products in stock</h3>
+      <%} %>
+    </ul>
+  </body>
+</html>

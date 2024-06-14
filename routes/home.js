@@ -7,9 +7,9 @@ const deleteController = require("../controllers/deleteController");
 
 router.get("/", display_controller.index);
 
-router.get("/category:id", display_controller.category);
+router.get("/category/:id", display_controller.category);
 
-router.get("/item:id", display_controller.item);
+router.get("/item/:id", display_controller.item);
 
 //create genre and item
 
