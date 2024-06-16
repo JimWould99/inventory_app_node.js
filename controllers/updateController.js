@@ -4,12 +4,22 @@ const Item = require("../models/item");
 
 const asyncHandler = require("express-async-handler");
 
-exports.create_item_get = asyncHandler(async (req, res, next) => {
-  const allCategories = await Category.find().sort({ name: 1 }).exec();
-  res.render("createItem", { categories: allCategories });
+exports.item_update_get = asyncHandler(async (req, res, next) => {
+  const [item, allCategories] = await Promise.all([
+    Item.findById(req.params.id).populate("category").exec(),
+    Category.find().sort({ name: 1 }).exec(),
+  ]);
+
+  if (item === null) {
+    const err = new Error("item not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("createItem", { item: item, categories: allCategories });
 });
 
-exports.create_item_post = [
+exports.item_update_post = [
   body("name", "Please fill in name").trim().isLength({ min: 3 }).escape(),
   body("description", "Please fill in name")
     .trim()
@@ -28,23 +38,26 @@ exports.create_item_post = [
       category: req.body.category,
       price: req.body.price,
       stock_no: req.body.stock_no,
+      _id: req.params.id,
     });
 
     if (!errors.isEmpty()) {
       const allCategories = await Category.find().sort({ name: 1 }).exec();
       res.render("createItem", { item: item, categories: allCategories });
+      return;
     } else {
-      await item.save();
-      res.redirect(item.url);
+      const updatedItem = await Item.findByIdAndUpdate(req.params.id, item, {});
+      res.redirect(updatedItem.url);
     }
   }),
 ];
 
-exports.create_category_get = asyncHandler(async (req, res, next) => {
-  res.render("create_category", { errors: "undefined" });
+exports.category_update_get = asyncHandler(async (req, res, next) => {
+  const category = await Category.findById(req.params.id).exec();
+  res.render("create_category", { category: category });
 });
 
-exports.create_category_post = [
+exports.category_update_post = [
   body("name", "Category must be at least 4 characters")
     .trim()
     .isLength({ min: 4 })
@@ -53,11 +66,10 @@ exports.create_category_post = [
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
 
-    console.log(errors);
-
     const category = new Category({
       name: req.body.name,
       description: req.body.description,
+      _id: req.params.id,
     });
 
     if (!errors.isEmpty()) {
@@ -67,15 +79,12 @@ exports.create_category_post = [
       });
       //return;
     } else {
-      const categoryExists = await Category.findOne({ name: req.body.name })
-        .collation({ locale: "en", strength: 2 })
-        .exec();
-      if (categoryExists) {
-        res.redirect(categoryExists.url);
-      } else {
-        await category.save();
-        res.redirect("/home");
-      }
+      const updatedCategory = await Category.findByIdAndUpdate(
+        req.params.id,
+        category,
+        {}
+      );
+      res.redirect(updatedCategory.url);
     }
   }),
 ];

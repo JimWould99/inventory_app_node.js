@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <%- include('./header.ejs') %>
+    <form method="post">
+      <label for="name">Category name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        value="<%=typeof category === 'undefined'? '': category.name%>"
+        required
+      />
+      <label for="description">Category description</label>
+      <input
+        type="text"
+        id="description"
+        name="description"
+        value="<%=typeof category === 'undefined'? '': category.description%>"
+        required
+      />
+      <button>Submit</button>
+    </form>
+    <% if (typeof errors !== "undefined") {%>
+    <ul>
+      <% errors.forEach(error => { %>
+      <li><%=error.msg %></li>
+      <% }); %>
+    </ul>
+    <% } %>
+  </body>
+</html>

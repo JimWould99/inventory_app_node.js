@@ -6,11 +6,12 @@
     <title>Document</title>
   </head>
   <body>
+    <%- include('./header.ejs') %>
     <h1><%=cat.name %></h1>
     <h3>Description: <%=cat.description%></h3>
     <br />
     <ul>
-      <%if (items.length > 1){ %>
+      <%if (items.length >=1){ %>
       <h3>Items in <%=cat.name%> inventory</h3>
       <br />
       <% items.forEach(item => { %>
@@ -22,5 +23,7 @@
       <h3>No products in stock</h3>
       <%} %>
     </ul>
+    <a href="<%=cat.url%>/delete">Delete category</a>
+    <a href="<%=cat.url%>/update">Update category</a>
   </body>
 </html>

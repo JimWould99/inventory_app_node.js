@@ -26,6 +26,7 @@ exports.category = asyncHandler(async (req, res, next) => {
     Category.findById(req.params.id).exec(),
     Item.find({ category: req.params.id }).exec(),
   ]);
+  console.log(itemsInCategory);
   /*
   const oneCategory = await Category.findById(req.params.id).exec();
   const itemsInCategory = await Item.find({
